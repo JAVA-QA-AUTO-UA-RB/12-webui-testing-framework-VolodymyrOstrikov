@@ -4,22 +4,14 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="0f73e84c-de36-4fde-959c-a931f4ee556f" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/src/test/java/pages/AbTestingPage.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/test/java/pages/AddRemoveElementsPage.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/test/java/pages/CheckboxesPage.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/test/java/pages/HomePage.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/test/java/pages/LoginPage.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/test/java/pages/SecureAreaPage.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/test/java/runners/CucumberTestRunner.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/test/java/steps/UiSteps.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/test/resources/features/ab_testing.feature" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/test/resources/features/add_remove_elements.feature" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/test/resources/features/checkboxes.feature" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/test/resources/features/login.feature" afterDir="false" />
+    <list default="true" id="6c5e839d-4569-4ffe-9590-e2d602105869" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/src/test/java/hooks/WebHooks.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/testng.xml" beforeDir="false" afterPath="$PROJECT_DIR$/testng.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/java/SeleniumTestngTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/SeleniumTestngTest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/resources/features/ab_testing.feature" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/resources/features/ab_testing.feature" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/resources/features/add_remove_elements.feature" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/resources/features/add_remove_elements.feature" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/resources/features/checkboxes.feature" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/resources/features/checkboxes.feature" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/resources/features/login.feature" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/resources/features/login.feature" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -42,13 +34,9 @@
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
   <component name="ProjectColorInfo">{
-  &quot;customColor&quot;: &quot;&quot;,
-  &quot;associatedIndex&quot;: 2
+  &quot;associatedIndex&quot;: 3
 }</component>
-  <component name="ProjectId" id="34yWq2aJ62QRVmbc5Zwf8DxqGpF" />
-  <component name="ProjectLevelVcsManager">
-    <ConfirmationsSetting value="2" id="Add" />
-  </component>
+  <component name="ProjectId" id="358oYgLJ2i4nnz2Wy6ASN3BOTx6" />
   <component name="ProjectViewState">
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
@@ -58,11 +46,7 @@
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "RunOnceActivity.git.unshallow": "true",
     "TestNG.C:/STUDY-2025/QaAuto-2025/12-webui-testing-framework-VolodymyrOstrikov/testng.xml.executor": "Run",
-    "TestNG.CucumberTestRunner.executor": "Run",
-    "git-widget-placeholder": "feature/cucumber__refactoring",
-    "project.structure.last.edited": "Modules",
-    "project.structure.proportion": "0.15",
-    "project.structure.side.proportion": "0.2"
+    "git-widget-placeholder": "feature/cucumber__refactoring"
   }
 }]]></component>
   <component name="RunManager" selected="TestNG.C:/STUDY-2025/QaAuto-2025/12-webui-testing-framework-VolodymyrOstrikov/testng.xml">
@@ -97,17 +81,76 @@
       <list>
         <item itemvalue="TestNG.C:/STUDY-2025/QaAuto-2025/12-webui-testing-framework-VolodymyrOstrikov/testng.xml" />
         <item itemvalue="TestNG.CucumberTestRunner" />
+        <item itemvalue="TestNG.C:/STUDY-2025/QaAuto-2025/12-webui-testing-framework-VolodymyrOstrikov/testng.xml" />
       </list>
     </recent_temporary>
   </component>
   <component name="TaskManager">
     <task active="true" id="Default" summary="Default task">
-      <changelist id="0f73e84c-de36-4fde-959c-a931f4ee556f" name="Changes" comment="" />
-      <created>1762186481479</created>
+      <changelist id="6c5e839d-4569-4ffe-9590-e2d602105869" name="Changes" comment="" />
+      <created>1762501110892</created>
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
-      <updated>1762186481479</updated>
+      <updated>1762501110892</updated>
     </task>
     <servers />
+  </component>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="RECENT_FILTERS">
+      <map>
+        <entry key="Branch">
+          <value>
+            <list>
+              <RecentGroup>
+                <option name="FILTER_VALUES">
+                  <option value="main" />
+                </option>
+              </RecentGroup>
+              <RecentGroup>
+                <option name="FILTER_VALUES">
+                  <option value="origin/feature/page-objects-refactor" />
+                </option>
+              </RecentGroup>
+              <RecentGroup>
+                <option name="FILTER_VALUES">
+                  <option value="origin/feedback" />
+                </option>
+              </RecentGroup>
+              <RecentGroup>
+                <option name="FILTER_VALUES">
+                  <option value="HEAD" />
+                </option>
+              </RecentGroup>
+              <RecentGroup>
+                <option name="FILTER_VALUES">
+                  <option value="origin/main" />
+                </option>
+              </RecentGroup>
+            </list>
+          </value>
+        </entry>
+      </map>
+    </option>
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State>
+              <option name="FILTERS">
+                <map>
+                  <entry key="branch">
+                    <value>
+                      <list>
+                        <option value="main" />
+                      </list>
+                    </value>
+                  </entry>
+                </map>
+              </option>
+            </State>
+          </value>
+        </entry>
+      </map>
+    </option>
   </component>
 </project>

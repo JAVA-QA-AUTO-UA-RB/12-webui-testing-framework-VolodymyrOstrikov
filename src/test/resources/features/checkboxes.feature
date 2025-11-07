@@ -4,6 +4,7 @@ Feature: Checkboxes page
   I want to interact with checkboxes
   So that I can verify their state
 
+  @ui @smoke
   Scenario: Toggle checkboxes
     Given I open the home page
     When I navigate to "Checkboxes" page

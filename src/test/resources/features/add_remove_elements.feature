@@ -4,6 +4,7 @@ Feature: Add/Remove Elements page
   I want to add and remove elements
   So that I can test element management
 
+  @regression
   Scenario: Add and remove elements successfully
     Given I open the home page
     When I navigate to "Add/Remove Elements" page

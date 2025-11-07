@@ -11,7 +11,6 @@ public class SeleniumTestngTest extends BasicSetupTest {
 
     @Test
     public void abTestingPageHasSpecificTextTest() throws InterruptedException {
-        Thread.sleep(2000);
         browser.get(TEST_URL);
 
         WebElement abTestingTaskLink = browser.findElement(By.xpath("//a[text()='A/B Testing']"));
@@ -24,7 +23,6 @@ public class SeleniumTestngTest extends BasicSetupTest {
 
     @Test
     public void addRemoveElementsTest() throws InterruptedException {
-        Thread.sleep(2000);
         browser.get(TEST_URL + "add_remove_elements/");
         WebElement addButton = browser.findElement(By.cssSelector("button[onclick='addElement()']"));
 
@@ -49,7 +47,6 @@ public class SeleniumTestngTest extends BasicSetupTest {
 
     @Test
     public void checkboxesTest() throws InterruptedException {
-        Thread.sleep(2000);
         browser.get(TEST_URL + "checkboxes");
         WebElement checkbox1 = browser.findElement(By.cssSelector("input[type='checkbox']:nth-of-type(1)"));
         WebElement checkbox2 = browser.findElement(By.cssSelector("input[type='checkbox']:nth-of-type(2)"));
@@ -68,7 +65,6 @@ public class SeleniumTestngTest extends BasicSetupTest {
 
     @Test
     public void dropdownTest() throws InterruptedException {
-        Thread.sleep(2000);
         browser.get(TEST_URL + "dropdown");
         WebElement dropdownElement = browser.findElement(By.cssSelector("#dropdown"));
         Select dropdown = new Select(dropdownElement);
@@ -82,7 +78,6 @@ public class SeleniumTestngTest extends BasicSetupTest {
 
     @Test
     public void formAuthenticationTest() throws InterruptedException {
-        Thread.sleep(2000);
         browser.get(TEST_URL + "login");
         WebElement usernameField = browser.findElement(By.cssSelector("input#username"));
         WebElement passwordField = browser.findElement(By.cssSelector("input#password"));
@@ -108,7 +103,6 @@ public class SeleniumTestngTest extends BasicSetupTest {
 
     @Test
     public void dragAndDropTest() throws InterruptedException {
-        Thread.sleep(2000);
         browser.get(TEST_URL + "drag_and_drop");
         WebElement elementA = browser.findElement(By.cssSelector("#column-a"));
         WebElement elementB = browser.findElement(By.cssSelector("#column-b"));
@@ -124,18 +118,15 @@ public class SeleniumTestngTest extends BasicSetupTest {
 
     @Test
     public void horizontalSliderTest() throws InterruptedException {
-        Thread.sleep(2000);
         browser.get(TEST_URL + "horizontal_slider");
         WebElement slider = browser.findElement(By.cssSelector("input[type='range']"));
         WebElement sliderValue = browser.findElement(By.cssSelector("#range"));
 
 
         String initialValue = sliderValue.getText();
-        Thread.sleep(2000);
 
         Actions actions = new Actions(browser);
         actions.clickAndHold(slider).moveByOffset(10, 0).release().perform();
-        Thread.sleep(2000);
 
         String newValue = sliderValue.getText();
         Assert.assertNotEquals(newValue, initialValue, "Slider value did not change");

@@ -4,6 +4,7 @@ Feature: Login page
   I want to log in to the secure area
   So that I can access restricted content
 
+  @regression
   Scenario: Successful login
     Given I open the home page
     When I navigate to "Form Authentication" page
@@ -11,6 +12,7 @@ Feature: Login page
     Then I should see a success message containing "You logged into a secure area!"
     And I should be able to logout
 
+  @regression
   Scenario: Invalid login attempt
     Given I open the home page
     When I navigate to "Form Authentication" page
