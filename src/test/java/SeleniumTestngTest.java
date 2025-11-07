@@ -1,30 +1,38 @@
 import org.openqa.selenium.By;
+import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.interactions.Actions;
+import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.Select;
+import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.Assert;
 import org.testng.annotations.Test;
+
+import java.time.Duration;
+
+
 
 
 public class SeleniumTestngTest extends BasicSetupTest {
     private static final String TEST_URL = "https://the-internet.herokuapp.com/";
 
     @Test
-    public void abTestingPageHasSpecificTextTest() throws InterruptedException {
-        Thread.sleep(2000);
+    public void abTestingPageHasSpecificTextTest()  {
+
         browser.get(TEST_URL);
 
-        WebElement abTestingTaskLink = browser.findElement(By.xpath("//a[text()='A/B Testing']"));
+        WebDriverWait wait = new WebDriverWait(browser, Duration.ofSeconds(10));
+        WebElement abTestingTaskLink = wait.until(ExpectedConditions.elementToBeClickable(By.xpath("//a[contains(text(), 'A/B Testing')]")));
         abTestingTaskLink.click();
 
-
-        Assert.assertTrue(true);
+        WebElement resultElement = browser.findElement(By.xpath("//*[contains(text(), 'A/B Test')]"));
+        Assert.assertTrue(resultElement.isDisplayed(), "Expected A/B Test content not found");
     }
 
 
     @Test
     public void addRemoveElementsTest() throws InterruptedException {
-        Thread.sleep(2000);
+
         browser.get(TEST_URL + "add_remove_elements/");
         WebElement addButton = browser.findElement(By.cssSelector("button[onclick='addElement()']"));
 
@@ -49,7 +57,7 @@ public class SeleniumTestngTest extends BasicSetupTest {
 
     @Test
     public void checkboxesTest() throws InterruptedException {
-        Thread.sleep(2000);
+
         browser.get(TEST_URL + "checkboxes");
         WebElement checkbox1 = browser.findElement(By.cssSelector("input[type='checkbox']:nth-of-type(1)"));
         WebElement checkbox2 = browser.findElement(By.cssSelector("input[type='checkbox']:nth-of-type(2)"));
@@ -68,7 +76,7 @@ public class SeleniumTestngTest extends BasicSetupTest {
 
     @Test
     public void dropdownTest() throws InterruptedException {
-        Thread.sleep(2000);
+
         browser.get(TEST_URL + "dropdown");
         WebElement dropdownElement = browser.findElement(By.cssSelector("#dropdown"));
         Select dropdown = new Select(dropdownElement);
@@ -82,7 +90,7 @@ public class SeleniumTestngTest extends BasicSetupTest {
 
     @Test
     public void formAuthenticationTest() throws InterruptedException {
-        Thread.sleep(2000);
+
         browser.get(TEST_URL + "login");
         WebElement usernameField = browser.findElement(By.cssSelector("input#username"));
         WebElement passwordField = browser.findElement(By.cssSelector("input#password"));
@@ -103,12 +111,14 @@ public class SeleniumTestngTest extends BasicSetupTest {
 
 
         WebElement logoutMessage = browser.findElement(By.cssSelector(".flash.success"));
-
+        Assert.assertTrue(logoutMessage.isDisplayed(), "Logout was not successful");
+        Assert.assertTrue(logoutMessage.getText().contains("You logged out of the secure area!"),
+                "Unexpected logout message");
     }
 
     @Test
     public void dragAndDropTest() throws InterruptedException {
-        Thread.sleep(2000);
+
         browser.get(TEST_URL + "drag_and_drop");
         WebElement elementA = browser.findElement(By.cssSelector("#column-a"));
         WebElement elementB = browser.findElement(By.cssSelector("#column-b"));
@@ -123,21 +133,23 @@ public class SeleniumTestngTest extends BasicSetupTest {
     }
 
     @Test
-    public void horizontalSliderTest() throws InterruptedException {
-        Thread.sleep(2000);
+    public void horizontalSliderTest() {
         browser.get(TEST_URL + "horizontal_slider");
+
         WebElement slider = browser.findElement(By.cssSelector("input[type='range']"));
-        WebElement sliderValue = browser.findElement(By.cssSelector("#range"));
+        WebElement valueDisplay = browser.findElement(By.id("range"));
 
+        String target = "0.5";
 
-        String initialValue = sliderValue.getText();
-        Thread.sleep(2000);
+        while (!valueDisplay.getText().equals(target)) {
+            if (Double.parseDouble(valueDisplay.getText()) < Double.parseDouble(target)) {
+                slider.sendKeys(Keys.ARROW_RIGHT);
+            } else {
+                slider.sendKeys(Keys.ARROW_LEFT);
+            }
+        }
 
-        Actions actions = new Actions(browser);
-        actions.clickAndHold(slider).moveByOffset(10, 0).release().perform();
-        Thread.sleep(2000);
-
-        String newValue = sliderValue.getText();
-        Assert.assertNotEquals(newValue, initialValue, "Slider value did not change");
+        Assert.assertEquals(valueDisplay.getText(), target,
+                "Slider did not move to the expected value " + target);
     }
 }
