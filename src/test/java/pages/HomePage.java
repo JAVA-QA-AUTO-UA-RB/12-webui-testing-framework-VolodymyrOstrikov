@@ -1,39 +1,38 @@
 package pages;
 
-import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
+import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
+import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.WebDriverWait;
+
+import java.util.List;
 
 public class HomePage {
     private final WebDriver driver;
+    private final WebDriverWait wait;
 
-    private final By abTestingLink = By.linkText("A/B Testing");
-    private final By addRemoveElementsLink = By.linkText("Add/Remove Elements");
-    private final By checkboxesLink = By.linkText("Checkboxes");
-    private final By formAuthenticationLink = By.linkText("Form Authentication");
+    @FindBy(css = "ul li a")
+    private List<WebElement> links;
 
-    public HomePage(WebDriver driver) {
+    public HomePage(WebDriver driver, WebDriverWait wait) {
         this.driver = driver;
+        this.wait = wait;
         PageFactory.initElements(driver, this);
     }
 
-    public void open() {
+    public HomePage open() {
         driver.get("https://the-internet.herokuapp.com/");
+        wait.until(ExpectedConditions.visibilityOfAllElements(links));
+        return this;
     }
 
-    public void goToAbTesting() {
-        driver.findElement(abTestingLink).click();
-    }
-
-    public void goToAddRemoveElements() {
-        driver.findElement(addRemoveElementsLink).click();
-    }
-
-    public void goToCheckboxes() {
-        driver.findElement(checkboxesLink).click();
-    }
-
-    public void goToFormAuthentication() {
-        driver.findElement(formAuthenticationLink).click();
+    public void clickLink(String text) {
+        WebElement link = links.stream()
+                .filter(el -> el.getText().contains(text))
+                .findFirst()
+                .orElseThrow(() -> new RuntimeException("Link not found: " + text));
+        wait.until(ExpectedConditions.elementToBeClickable(link)).click();
     }
 }

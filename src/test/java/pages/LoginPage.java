@@ -1,13 +1,15 @@
 package pages;
 
-import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
+import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.WebDriverWait;
 
 public class LoginPage {
     private final WebDriver driver;
+    private final WebDriverWait wait;
 
     @FindBy(id = "username")
     private WebElement username;
@@ -21,18 +23,29 @@ public class LoginPage {
     @FindBy(id = "flash")
     private WebElement message;
 
-    public LoginPage(WebDriver driver) {
+    public LoginPage(WebDriver driver, WebDriverWait wait) {
         this.driver = driver;
+        this.wait = wait;
         PageFactory.initElements(driver, this);
     }
 
-    public void login(String user, String pass) {
-        username.sendKeys(user);
-        password.sendKeys(pass);
-        loginButton.click();
+    public LoginPage open() {
+        driver.get("https://the-internet.herokuapp.com/login");
+        return this;
     }
 
-    public String getMessageText() {
+    public SecureAreaPage login(String user, String pass) {
+        if (user == null || pass == null) {
+            throw new IllegalArgumentException("Username and password must not be null");
+        }
+        wait.until(ExpectedConditions.visibilityOf(username)).sendKeys(user);
+        password.sendKeys(pass);
+        loginButton.click();
+        return new SecureAreaPage(driver, wait);
+    }
+
+    public String getErrorMessage() {
+        wait.until(ExpectedConditions.visibilityOf(message));
         return message.getText();
     }
 }

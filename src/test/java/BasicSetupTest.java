@@ -10,6 +10,7 @@ public class BasicSetupTest {
 
     public ChromeDriver browser;
 
+
     @BeforeSuite
     public void webdriverCommonSetup() {
         // не змінюйте цей метод
