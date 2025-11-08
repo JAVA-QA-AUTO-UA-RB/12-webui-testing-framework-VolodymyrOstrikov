@@ -8,6 +8,7 @@ import org.testng.annotations.BeforeSuite;
 public class BasicSetupTest {
 
 
+
     public ChromeDriver browser;
 
 
