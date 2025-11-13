@@ -7,17 +7,19 @@ import pages.AbTestingPage;
 import pages.HomePage;
 
 public class AbTestingTest extends BaseTest {
-
     @Test
     public void headerShouldContainAbTest() {
-        String text = new AbTestingPage(driver, wait).open().getHeaderText();
-        Assert.assertTrue(text.contains("A/B Test"), "Header mismatch");
+        AbTestingPage abPage = new AbTestingPage(driver, wait).open();
+        Assert.assertTrue(abPage.getHeaderText().contains("A/B Test") || abPage.getHeaderText().contains("A/B Test Control"),
+                "The title does not contain 'A/B Test' або 'A/B Test Control'");
     }
 
     @Test
     public void headerViaHome() {
-        new HomePage(driver, wait).open().clickLink("A/B Testing");
-        String text = new AbTestingPage(driver, wait).getHeaderText();
-        Assert.assertTrue(text.contains("A/B Test"));
+        HomePage homePage = new HomePage(driver, wait).open();
+        homePage.goToAbTesting();
+        AbTestingPage abPage = new AbTestingPage(driver, wait);
+        Assert.assertTrue(abPage.getHeaderText().contains("A/B Test") || abPage.getHeaderText().contains("A/B Test Control"),
+                "The title does not contain 'A/B Test' або 'A/B Test Control'");
     }
 }

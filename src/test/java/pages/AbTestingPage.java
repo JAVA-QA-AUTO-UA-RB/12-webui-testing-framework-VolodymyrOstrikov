@@ -11,10 +11,13 @@ public class AbTestingPage {
     private final WebDriver driver;
     private final WebDriverWait wait;
 
-    @FindBy(css = "#content h3")
+    @FindBy(css = "h3")
     private WebElement header;
 
     public AbTestingPage(WebDriver driver, WebDriverWait wait) {
+        if (driver == null || wait == null) {
+            throw new IllegalArgumentException("WebDriver і WebDriverWait не можуть бути null");
+        }
         this.driver = driver;
         this.wait = wait;
         PageFactory.initElements(driver, this);
@@ -22,11 +25,11 @@ public class AbTestingPage {
 
     public AbTestingPage open() {
         driver.get("https://the-internet.herokuapp.com/abtest");
+        wait.until(ExpectedConditions.visibilityOf(header));
         return this;
     }
 
     public String getHeaderText() {
-        wait.until(ExpectedConditions.visibilityOf(header));
         return header.getText();
     }
 }

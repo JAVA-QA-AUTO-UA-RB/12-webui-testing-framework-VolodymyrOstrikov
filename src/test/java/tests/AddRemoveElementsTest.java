@@ -4,17 +4,22 @@ import base.BaseTest;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 import pages.AddRemoveElementsPage;
-import pages.HomePage;
 
 public class AddRemoveElementsTest extends BaseTest {
-
     @Test
     public void addAndRemoveElements() {
-        new HomePage(driver, wait).open().clickLink("Add/Remove Elements");
-        AddRemoveElementsPage page = new AddRemoveElementsPage(driver, wait);
-        page.clickAdd(3);
-        Assert.assertEquals(page.getDeleteButtonsCount(), 3);
+        AddRemoveElementsPage page = new AddRemoveElementsPage(driver, wait).open();
+
+        page.clickAdd();
+        page.clickAdd();
+        page.clickAdd();
+
+        Assert.assertEquals(page.getDeleteButtonsCount(), 3,
+                "The number of delete buttons does not match");
+
         page.deleteAll();
-        Assert.assertEquals(page.getDeleteButtonsCount(), 0);
+
+        Assert.assertEquals(page.getDeleteButtonsCount(), 0,
+                "Items not deleted");
     }
 }

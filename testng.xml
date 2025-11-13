@@ -8,7 +8,7 @@
     </test>
 </suite>-->
 <!DOCTYPE suite SYSTEM "https://testng.org/testng-1.0.dtd">
-<suite name="TheInternetSuite" parallel="classes" thread-count="4">
+<suite name="Cucumber Suite" parallel="false" thread-count="1">
     <test name="AllTests">
         <classes>
             <class name="tests.AbTestingTest"/>
@@ -18,6 +18,8 @@
             <class name="tests.AuthenticationTest"/>
             <class name="tests.DragAndDropTest"/>
             <class name="tests.HorizontalSliderTest"/>
+            <class name="runners.CucumberTestRunner"/>
+            <class name="SeleniumTestngTest"/>
         </classes>
     </test>
 </suite>

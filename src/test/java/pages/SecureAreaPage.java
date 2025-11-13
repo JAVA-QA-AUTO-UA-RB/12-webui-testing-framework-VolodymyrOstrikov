@@ -26,7 +26,7 @@ public class SecureAreaPage {
 
     public String getSuccessMessage() {
         wait.until(ExpectedConditions.visibilityOf(message));
-        return message.getText();
+        return message.getText().trim();
     }
 
     public void logout() {

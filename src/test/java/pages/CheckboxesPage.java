@@ -7,6 +7,7 @@ import org.openqa.selenium.support.PageFactory;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
+import java.time.Duration;
 import java.util.List;
 
 public class CheckboxesPage {
@@ -18,12 +19,13 @@ public class CheckboxesPage {
 
     public CheckboxesPage(WebDriver driver, WebDriverWait wait) {
         this.driver = driver;
-        this.wait = wait;
+        this.wait = (wait != null) ? wait : new WebDriverWait(driver, Duration.ofSeconds(10));
         PageFactory.initElements(driver, this);
     }
 
     public CheckboxesPage open() {
         driver.get("https://the-internet.herokuapp.com/checkboxes");
+        wait.until(ExpectedConditions.urlToBe("https://the-internet.herokuapp.com/checkboxes"));
         wait.until(ExpectedConditions.visibilityOfAllElements(checkboxes));
         return this;
     }

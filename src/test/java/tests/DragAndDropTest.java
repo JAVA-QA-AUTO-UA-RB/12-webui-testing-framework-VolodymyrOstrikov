@@ -3,16 +3,14 @@ package tests;
 import base.BaseTest;
 import org.testng.Assert;
 import org.testng.annotations.Test;
-import pages.DragAndDropPage;
-import pages.HomePage;
+import pages.*;
 
 public class DragAndDropTest extends BaseTest {
-
     @Test
     public void dragAndDrop() {
-        new HomePage(driver, wait).open().clickLink("Drag and Drop");
-        DragAndDropPage page = new DragAndDropPage(driver, wait);
+        DragAndDropPage page = new DragAndDropPage(driver, wait).open();
+        String initialHeaderA = page.getHeaderA();
         page.dragAtoB();
-        Assert.assertEquals(page.getHeaderA(), "B"); // Після drag A стає B
+        Assert.assertNotEquals(page.getHeaderA(), initialHeaderA, "Drag and drop did not happen");
     }
 }

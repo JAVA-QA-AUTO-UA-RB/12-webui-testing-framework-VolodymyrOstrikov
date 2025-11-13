@@ -1,5 +1,6 @@
 package pages;
 
+import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
@@ -47,5 +48,10 @@ public class LoginPage {
     public String getErrorMessage() {
         wait.until(ExpectedConditions.visibilityOf(message));
         return message.getText();
+    }
+
+    public String getMessageText() {
+        WebElement messageElement = driver.findElement(By.id("message"));
+        return messageElement.getText();
     }
 }

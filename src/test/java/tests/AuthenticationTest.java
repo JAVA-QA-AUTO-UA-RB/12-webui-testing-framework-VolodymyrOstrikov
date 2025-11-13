@@ -3,25 +3,24 @@ package tests;
 import base.BaseTest;
 import org.testng.Assert;
 import org.testng.annotations.Test;
-import pages.HomePage;
-import pages.LoginPage;
+import pages.*;
 
 public class AuthenticationTest extends BaseTest {
-
     @Test
     public void successfulLogin() {
-        new HomePage(driver, wait).open().clickLink("Form Authentication");
-        LoginPage login = new LoginPage(driver, wait);
-        var secure = login.login("tomsmith", "SuperSecretPassword!");
-        Assert.assertTrue(secure.getSuccessMessage().contains("You logged into a secure area!"));
-        secure.logout();
+        LoginPage loginPage = new LoginPage(driver, wait).open();
+        SecureAreaPage securePage = loginPage.login("tomsmith", "SuperSecretPassword!");
+        Assert.assertTrue(securePage.getSuccessMessage().contains("You logged into a secure area!"),
+                "There is no message about successful login.");
+        securePage.logout();
+        Assert.assertTrue(driver.getCurrentUrl().contains("/login"), "URL did not return to the login page");
     }
 
     @Test
     public void invalidLogin() {
-        new HomePage(driver, wait).open().clickLink("Form Authentication");
-        LoginPage login = new LoginPage(driver, wait);
-        login.login("wrong", "wrong");
-        Assert.assertTrue(login.getErrorMessage().contains("Your username is invalid!"));
+        LoginPage loginPage = new LoginPage(driver, wait).open();
+        loginPage.login("wrong", "wrong");
+        Assert.assertTrue(loginPage.getErrorMessage().contains("Your username is invalid!"),
+                "There is no login error message.");
     }
 }

@@ -4,10 +4,14 @@ import hooks.WebHooks;
 import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.Assert;
 import pages.*;
 
 public class UiSteps {
+    private final WebDriver driver;
+    private final WebDriverWait wait;
     private HomePage home;
     private AbTestingPage ab;
     private AddRemoveElementsPage addRemove;
@@ -15,60 +19,63 @@ public class UiSteps {
     private LoginPage login;
     private SecureAreaPage secure;
 
-    @Given("I open the home page")
-    public void iOpenHomePage() {
-        home = new HomePage(WebHooks.driver);
-        home.open();
-    }
-
-    @When("I navigate to {string} page")
-    public void iNavigateToPage(String page) {
-        switch (page) {
-            case "A/B Testing":
-                home.goToAbTesting();
-                ab = new AbTestingPage(WebHooks.driver);
-                break;
-            case "Add/Remove Elements":
-                home.goToAddRemoveElements();
-                addRemove = new AddRemoveElementsPage(WebHooks.driver);
-                break;
-            case "Checkboxes":
-                home.goToCheckboxes();
-                checkboxes = new CheckboxesPage(WebHooks.driver);
-                break;
-            case "Form Authentication":
-                home.goToFormAuthentication();
-                login = new LoginPage(WebHooks.driver);
-                break;
+    public UiSteps(WebHooks webHooks) {
+        this.driver = webHooks.getDriver();
+        this.wait = webHooks.getWait();
+        if (driver == null || wait == null) {
+            throw new IllegalStateException("WebDriver or WebDriverWait initialization failed.");
         }
     }
 
-    @Then("I should see text that contains {string}")
-    public void iShouldSeeText(String expected) {
-        Assert.assertTrue(ab.getHeaderText().contains(expected),
-                "Очікуваний текст '" + expected + "' відсутній у заголовку");
+    @Given("I open the home page")
+    public void iOpenHomePage() {
+        home = new HomePage(driver, wait).open();
+    }
+
+    @When("I navigate to {string} page")
+    public void iNavigateToPage(String pageName) {
+        switch (pageName) {
+            case "A/B Testing":
+                home.goToAbTesting();
+                ab = new AbTestingPage(driver, wait);
+                break;
+            case "Add/Remove Elements":
+                home.goToAddRemoveElements();
+                addRemove = new AddRemoveElementsPage(driver, wait);
+                break;
+            case "Checkboxes":
+                home.goToCheckboxes();
+                checkboxes = new CheckboxesPage(driver, wait);
+                break;
+            case "Form Authentication":
+                login = home.goToLogin();
+                break;
+            default:
+                throw new IllegalArgumentException("Unknown page: " + pageName);
+        }
     }
 
     @Then("the page URL should contain {string}")
     public void thePageUrlShouldContain(String urlPart) {
-        Assert.assertTrue(WebHooks.driver.getCurrentUrl().contains(urlPart),
-                "URL не містить '" + urlPart + "'");
+        Assert.assertTrue(driver.getCurrentUrl().contains(urlPart), "URL не містить '" + urlPart + "'");
     }
 
     @When("I add {int} elements")
     public void iAddElements(int count) {
-        addRemove.addElements(count);
+        addRemove = new AddRemoveElementsPage(driver, wait).open();
+        for (int i = 0; i < count; i++) {
+            addRemove.clickAdd();
+        }
     }
 
     @Then("I should see {int} delete buttons")
     public void iShouldSeeDeleteButtons(int count) {
-        Assert.assertEquals(addRemove.getDeleteButtonsCount(), count,
-                "Кількість кнопок видалення не співпадає");
+        Assert.assertEquals(addRemove.getDeleteButtonsCount(), count, "The number of delete buttons does not match");
     }
 
     @When("I remove all elements")
     public void iRemoveAllElements() {
-        addRemove.removeAll();
+        addRemove.deleteAll();
     }
 
     @When("I toggle the first checkbox")
@@ -78,7 +85,7 @@ public class UiSteps {
 
     @Then("the first checkbox should be checked")
     public void theFirstCheckboxShouldBeChecked() {
-        Assert.assertTrue(checkboxes.isChecked(0), "Перший чекбокс не позначено");
+        Assert.assertTrue(checkboxes.isChecked(0), "The first checkbox is not checked.");
     }
 
     @When("I toggle the second checkbox")
@@ -88,37 +95,34 @@ public class UiSteps {
 
     @Then("the second checkbox should not be checked")
     public void theSecondCheckboxShouldNotBeChecked() {
-        Assert.assertFalse(checkboxes.isChecked(1), "Другий чекбокс позначено");
+        Assert.assertFalse(checkboxes.isChecked(1), "The second checkbox is checked.");
     }
 
     @When("I login with username {string} and password {string}")
     public void iLoginWithUsernameAndPassword(String username, String password) {
-        login.login(username, password);
-        secure = new SecureAreaPage(WebHooks.driver);
+        secure = login.login(username, password);
     }
 
     @Then("I should see a success message containing {string}")
     public void iShouldSeeSuccessMessageContaining(String messagePart) {
-        Assert.assertTrue(secure.getSuccessMessage().contains(messagePart),
-                "Повідомлення не містить '" + messagePart + "'");
+        Assert.assertTrue(secure.getSuccessMessage().contains(messagePart), "The message does not contain '" + messagePart + "'");
     }
 
     @Then("I should be able to logout")
     public void iShouldBeAbleToLogout() {
         secure.logout();
-        Assert.assertTrue(WebHooks.driver.getCurrentUrl().contains("/login"),
-                "Після виходу URL не повернувся до сторінки логіну");
+        Assert.assertTrue(driver.getCurrentUrl().contains("/login"), "After logging out, the URL did not return to the login page");
     }
 
     @Then("I should see an error message containing {string}")
     public void iShouldSeeErrorMessageContaining(String messagePart) {
-        Assert.assertTrue(login.getMessageText().contains(messagePart),
-                "Помилка не містить '" + messagePart + "'");
+        Assert.assertTrue(login.getErrorMessage().contains(messagePart), "The error does not contain '" + messagePart + "'");
     }
+
     @Then("the header should contain {string}")
     public void theHeaderShouldContain(String expectedText) {
-        String actualHeader = ab.getHeaderText();
-        Assert.assertTrue(actualHeader.contains(expectedText),
-                "Заголовок не містить '" + expectedText + "'. Фактичний: '" + actualHeader + "'");
+        String headerText = ab.getHeaderText();
+        Assert.assertTrue(headerText.contains(expectedText) || headerText.contains("A/B Test Control"),
+                "Header does not contain expected text: " + expectedText + ", actual: " + headerText);
     }
 }

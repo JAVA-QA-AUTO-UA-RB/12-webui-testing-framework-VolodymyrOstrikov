@@ -1,3 +1,4 @@
+
 package base;
 
 import io.github.bonigarcia.wdm.WebDriverManager;
@@ -14,9 +15,6 @@ public class BaseTest {
     protected WebDriver driver;
     protected WebDriverWait wait;
 
-    private static final int IMPLICIT_WAIT_SECONDS = 5;
-    private static final int EXPLICIT_WAIT_SECONDS = 15;
-
     @BeforeClass(alwaysRun = true)
     public void setUp() {
         WebDriverManager.chromedriver().setup();
@@ -24,14 +22,15 @@ public class BaseTest {
         options.addArguments("--disable-notifications");
         driver = new ChromeDriver(options);
         driver.manage().window().maximize();
-        driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(IMPLICIT_WAIT_SECONDS));
-        wait = new WebDriverWait(driver, Duration.ofSeconds(EXPLICIT_WAIT_SECONDS));
+        driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(5));
+        wait = new WebDriverWait(driver, Duration.ofSeconds(15));
     }
 
     @AfterClass(alwaysRun = true)
     public void tearDown() {
         if (driver != null) {
             driver.quit();
+            driver = null;
         }
     }
 }
